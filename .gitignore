@@ -1,1 +1,4 @@
 tmp
+/.vs
+/TasksManagementSystem/bin/Debug/net6.0
+/TasksManagementSystem/obj
