@@ -10,6 +10,16 @@ Currently our projects are web-based, thereby the assignments are web app themed
 
 ## Content
 
+I have setup a dynamodb and mongodb in the docker compose. 
+You can use them if you need them, however feel free to add any data structures that you need (or not at all).
+
+
+> Note: The port are exposed to localhost 
+
+> known issues: 
+> - dynamodb: if you getting this `unable to open database file` use this `sudo chmod a+rw tmp/dynamodb` [ref](https://stackoverflow.com/questions/45850688/unable-to-open-local-dynamodb-database-file-after-power-outage)
+
+
 ## How to get started
 
 Start by forking this repo
