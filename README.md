@@ -22,7 +22,9 @@ You can use them if you need them, however feel free to add any data structures 
 
 ## How to get started
 
-Start by forking this repo
+Start by forking this repo, and the rest are up you.
+
+When your done you can make a PR or send us the link to your repo.
 
 ## Epic
 Our clients need a tasks management system, that allows them to create and find tasks _easily_. 
