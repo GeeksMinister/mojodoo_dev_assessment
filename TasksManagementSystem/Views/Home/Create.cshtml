@@ -1,0 +1,39 @@
+﻿@model Todo
+
+<form method="post" asp-action="Create" class="table">
+    <div class="border p-3">
+        <div class="form-group row">
+            <h2 class="text-black-50 pl-3">Add Task</h2>
+        </div>
+        <div class="row">
+            <div class="w-100">
+                <div class="col-3">
+                    <label asp-for="TaskName"></label>
+                    <input asp-for="TaskName" class="form-control" />
+                    <span asp-validation-for="TaskName" class="text-danger"></span>
+                </div>
+                <div class="col-3 w-auto m-3">
+                    <label asp-for="Description"></label>
+                    <textarea asp-for="Description" class="form-control " rows="6" ></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="col-1" >
+                    <label asp-for="Priority"></label>
+                    <input asp-for="Priority" class="form-control" min="0" max="5" />
+                    <span asp-validation-for="Priority" class="text-danger"></span>
+                </div>
+                <br />
+                <div class="form-group w-100">
+                    <div class="col-8 row m-auto ">
+                        <div class="col">
+                            <input type="submit" class="text-capitalize btn btn-info w-75" value="Add" />
+                        </div>
+                        <div class="col">
+                            <a asp-action="Index" class="btn btn-danger w-75">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

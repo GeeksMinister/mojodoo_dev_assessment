@@ -1,7 +1,12 @@
+using TasksManagementSystem.DataAccess.Data.TodoData;
+using TasksManagementSystem.DataAccess.DbAccess;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<ISqlDataAccess, SqlDataAccess>();
+builder.Services.AddScoped<ITodoData, TodoData>();
 
 var app = builder.Build();
 

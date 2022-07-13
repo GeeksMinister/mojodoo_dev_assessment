@@ -1,8 +1,62 @@
-﻿@{
+﻿@model IEnumerable<Todo>
+
+@{
     ViewData["Title"] = "Tasks Management";
 }
 
-<div class="text-center">
-    
-    
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">To-Do List</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-action="Create"
+               class="btn btn-primary">Add Task</a>
+        </div>
+    </div>
+    <br />
+    @if (!Model.Any())
+    {
+        <p>No Task Was Found</p>
+        return;
+    }
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="border-5">
+                <th class="text-center">
+                    Task
+                </th>
+                <th class="text-center">
+                    Description
+                </th>
+                <th class="text-center">
+                    Priority
+                </th>
+                <th class="text-center">
+                    Status
+                </th>
+                <th class="text-center">
+                    Changes
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var todo in Model)
+            {
+                <tr class="border-5">
+                    <td class="col-3 align-middle text-lg-center fw-bold">@todo.TaskName</td>
+                    <td class="col-9 text-sm-center">@todo.Description</td>
+                    <td class="col-1 text-sm-center align-middle">@todo.Priority</td>
+                    <td class="col-1 text-sm-center align-middle">@todo.ReturnStatus()</td>
+                    <td>
+                        <div class="text-center">
+                            <a asp-action="Update" asp-route-Id="@todo.Id" class="btn btn-primary  ">Update</a>
+                            <a asp-action="Delete" asp-route-Id="@todo.Id" class="btn btn-danger mt-2">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
 </div>

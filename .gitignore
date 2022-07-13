@@ -2,3 +2,5 @@ tmp
 /.vs
 /TasksManagementSystem/bin/Debug/net6.0
 /TasksManagementSystem/obj
+/data/TasksManagementSystem.sqbpro
+/TasksManagementSystem/DataAccess/Data/TasksManagementSystem.sqbpro
