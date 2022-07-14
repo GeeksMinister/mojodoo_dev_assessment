@@ -17,31 +17,38 @@ namespace TasksManagementSystem.Controllers
         }
 
         [Route("/")]
-        [Route("Oldest")]
-        [Route("Newest")]
+        [Route("byOldest")]
+        [Route("byNewest")]
+        [Route("byPriority")]
         [Route("Name")]
-        [Route("Priority")]
-        [Route("Status")]
+        [Route("byStatus")]
+        [Route("byName")]
         public async Task<IActionResult> Index()
         {
-            string route = Request?.Path.Value!;
-            var result = await SortOutTasks(route);
-            return View(result);
+            try
+            {
+                string route = Request?.Path.Value!;
+                var result = await SortOutTasks(route);
+                return View(result);
+            }
+            catch (Exception ex)
+            {
+                return Problem("[Database Was NOT Found]" + ex.Message);
+            }
         }
 
         public async Task<IEnumerable<Todo>> SortOutTasks(string? route)
         {
             var result = await _todoData.GetAll();
-            
             switch (route)
             {
-                case "/Newest":
+                case "/byNewest":
                     return result.ToList().OrderByDescending(todo => todo.Id);
-                case "/Name":
+                case "/byName":
                     return result.ToList().OrderBy(todo => todo.TaskName);
-                case "/Priority":
+                case "/byPriority":
                     return result.ToList().OrderBy(todo => todo.Priority);
-                case "/Status":
+                case "/byStatus":
                     return result.ToList().OrderBy(todo => todo.Status);
                 default:
                     return result;
@@ -56,46 +63,83 @@ namespace TasksManagementSystem.Controllers
         [HttpPost]
         public IActionResult Create_Post(Todo todo)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _todoData.InsertTodo(todo);
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _todoData.InsertTodo(todo);
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(todo);
             }
-            return View(todo);
+            catch (Exception ex)
+            {
+
+                return Problem(ex.Message);
+            }
         }
 
         public async Task<IActionResult> Update(int? id)
         {
-            if (id == null || id <= 0) return NotFound();
-            var todo = await _todoData.GetById(id);
-            if (todo == null) return NotFound();
-            return View(todo);
+            try
+            {
+                if (id == null || id <= 0) return NotFound();
+                var todo = await _todoData.GetById(id);
+                if (todo == null) return NotFound();
+                return View(todo);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Update_Post(Todo todo)
         {
-            if (ModelState.IsValid)
+            try
             {
-                await _todoData.UpdateTodo(todo);
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    await _todoData.UpdateTodo(todo);
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(todo);
             }
-            return View(todo);
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
         }
 
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || id <= 0) return NotFound();
-            var todo = await _todoData.GetById(id);
-            if (todo == null) return NotFound();
-            return View(todo);
+            try
+            {
+                if (id == null || id <= 0) return NotFound();
+                var todo = await _todoData.GetById(id);
+                if (todo == null) return NotFound();
+                return View(todo);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete_Post(int? id)
         {
-            await _todoData.DeleteTodo(id);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                await _todoData.DeleteTodo(id);
+                return RedirectToAction(nameof(Index));
+
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
         }
 
         public IActionResult Search()
@@ -103,9 +147,17 @@ namespace TasksManagementSystem.Controllers
             return View();
         }
 
-        public async Task<IActionResult> ShowSearchResults(string status, string searchTerm)
+        public async Task<IActionResult> ShowSearchResults(string status, string tag, string searchTerm)
         {
-            return View(await _todoData.SearchTodo(status, searchTerm));
+            try
+            {
+                var result = await _todoData.SearchTodo(status, tag, searchTerm);
+                return View(result);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

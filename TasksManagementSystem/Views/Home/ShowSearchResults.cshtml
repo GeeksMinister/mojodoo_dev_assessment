@@ -15,7 +15,7 @@
 <table class="table table-bordered">
     @if (!Model.Any())
     {
-        <tr>No project was found</tr>
+        <tr>No Task was found</tr>
         return;
     }
     <thead>
@@ -33,6 +33,9 @@
                 Status
             </th>
             <th class="text-center">
+                Tag
+            </th>
+            <th class="text-center">
                 Changes
             </th>
         </tr>
@@ -45,6 +48,7 @@
                 <td>@item.Description</td>
                 <td>@item.Priority</td>
                 <td>@item.Status</td>
+                <td>@item.Tag</td>
                 <td class="text-center justify-content-lg-between">
                     <a asp-action="Update" asp-route-Id="@item.Id" class="btn btn-primary p-2 mt-2 ">Update</a>
                     <a asp-action="Delete" asp-route-Id="@item.Id" class="btn btn-danger p-2 mt-2">Delete</a>

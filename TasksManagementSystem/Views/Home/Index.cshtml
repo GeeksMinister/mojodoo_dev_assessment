@@ -8,19 +8,18 @@
     <div class="row pt-4">
         <div class="col">
             <script>
-                function sortOut(value) {
-                    var sortOption = value.value;
-                    window.location.href = "@Url.RouteUrl("/")" + sortOption;
+                function sortOut(order) {
+                    window.location.href = "@Url.RouteUrl("/")" + order.value;
                 }
             </script>
-            <select name="order" onchange="sortOut(this)"
+            <select onchange="sortOut(this)"
                     class="list-group-item-secondary fw-bold border-2 rounded-2 dropdown-item-text ">
                 <option class="fw-bolder ">Order By</option>
-                <option>Oldest</option>
-                <option>Newest</option>
-                <option>Name</option>
-                <option>Priority</option>
-                <option>Status</option>
+                <option value="byOldest">Oldest</option>
+                <option value="byNewest">Newest</option>
+                <option value="byName">Name</option>
+                <option value="byPriority">Priority</option>
+                <option value="byStatus">Status</option>
             </select>
         </div>
         <div class="col-6 text-end">
@@ -31,7 +30,7 @@
     <br />
     @if (!Model.Any())
     {
-        <p>No Task Was Found</p>
+        <p>No Task Was Found or Returned From Database</p>
         return;
     }
     <table class="table table-bordered table-striped">

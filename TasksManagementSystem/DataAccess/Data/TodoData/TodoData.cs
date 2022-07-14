@@ -15,11 +15,11 @@ public class TodoData : ITodoData
         return await _dbContext.LoadData<Todo, object>("SELECT * FROM Todo", new { });
     }
 
-    public async Task<IEnumerable<Todo>> SearchTodo(string status, string searchTerm)
+    public async Task<IEnumerable<Todo>> SearchTodo(string status, string tag, string searchTerm)
     {
-        string query = "SELECT * FROM Todo WHERE Status = @status AND " +
+        string query = "SELECT * FROM Todo WHERE Status = @status OR Tag = @tag OR" +
             "(TaskName LIKE '%' || @searchTerm || '%' OR Description LIKE '%' || @searchTerm || '%')";
-        return await _dbContext.LoadData<Todo, object>(query, new { searchTerm, status });
+        return await _dbContext.LoadData<Todo, object>(query, new { status, tag, searchTerm });
     }
 
     public async Task<Todo> GetById(int? id)
@@ -31,21 +31,22 @@ public class TodoData : ITodoData
 
     public async Task InsertTodo(Todo todo)
     {
-        string query = "INSERT INTO Todo (TaskName, Description, Priority, Status) " +
-                       "VALUES(@TaskName, @Description, @Priority, @Status)";
+        string query = "INSERT INTO Todo (TaskName, Description, Priority, Status, Tag) " +
+                       "VALUES(@TaskName, @Description, @Priority, @Status, @Tag)";
         await _dbContext.SaveData(query, new
         {
             todo.TaskName,
             todo.Description,
             todo.Priority,
-            todo.Status
+            todo.Status,
+            todo.Tag
         });
     }
 
     public async Task UpdateTodo(Todo todo)
     {
         string query = "UPDATE Todo Set TaskName = @TaskName, Description = @Description, " +
-                       "Priority = @Priority, Status = @Status WHERE Id = @Id";
+                       "Priority = @Priority, Status = @Status, Tag = @Tag WHERE Id = @Id";
         await _dbContext.SaveData(query, todo);
     }
 

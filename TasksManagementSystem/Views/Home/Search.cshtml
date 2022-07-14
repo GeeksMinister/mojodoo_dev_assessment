@@ -10,20 +10,80 @@
 <div class="row">
     <div class="col-9">
         <div asp-validation-summary="All" class="text-danger"></div>
-        <form asp-action="ShowSearchResults" >
+        <form asp-action="ShowSearchResults" onsubmit="return checkInput()">
             <div class="form-group">
+                <script>
+                    function checkInput() {
+                        var field = document.querySelector("#search").value;
+                        var selectStatus = document.querySelector("#status").value;
+                        var selectTag = document.querySelector("#tag").value;
+                        if ((field.trim() == "") && (selectStatus.length == 0) && (selectTag.length == 0)) {
+                            alert("Please fill in the search field or specify the other options");
+                            return false;
+                        }
+                    }
+                </script>
                 <label for="searchPhrase" class="control-label">Search</label>
                 <input id="search" name="searchTerm" class="form-control mb-2" />
             </div>
-            <div class="col-1">
+            <div class="col-1 m-3">
                 <label asp-for="Status"></label>
-                <select asp-for="Status" name="status" class="list-group-item-secondary fw-bold">
+                <select asp-for="Status" name="status" id="status" class="list-group-item-secondary fw-bold">
+                    <option value="@null">Don't specify</option>
                     <option>Not Started</option>
                     <option>Started</option>
                     <option>On Hold</option>
                     <option>Complete</option>
                 </select>
             </div>
+            <div class="col-3 m-3">
+                <label asp-for="Tag">Choose Tag</label>
+                <select asp-for="Tag" name="tag" id="tag" class="list-group-item-secondary fw-bold">
+
+                    <option value="@null" class="h5">Don't specify</option>
+
+                    <option value="Food" class="h4 bg-warning bg-opacity-75">Food</option>
+
+                    <option value="Perishable" class="h5 bg-warning bg-opacity-50">&nbsp;Perishable</option>
+                    <option value="Meat" class="bg-warning bg-opacity-25">&nbsp;Meat</option>
+                    <option value="Fish" class="bg-warning bg-opacity-25">&nbsp;Fish</option>
+                    <option value="Eggs" class="bg-warning bg-opacity-25">&nbsp;Eggs</option>
+                    <option value="Dairy" class="bg-warning bg-opacity-25">&nbsp;Dairy</option>
+                    <option value="Fruit" class="bg-warning bg-opacity-25">&nbsp;Fruit</option>
+                    <option value="Vegetables" class="bg-warning bg-opacity-25">&nbsp;Vegetable</option>
+
+                    <option value="Bread" class="fw-bold bg-warning bg-opacity-25">&nbsp;Bread</option>
+                    <option value="Sourdough Bread" class="small bg-warning bg-opacity-10">&nbsp;&nbsp;Sourdough Bread</option>
+                    <option value="Wheat Bread" class="small bg-warning bg-opacity-10">&nbsp;&nbsp;Wheat Bread</option>
+                    <option value="Rye Bread" class="small bg-warning bg-opacity-10">&nbsp;&nbsp;Rye Bread</option>
+
+                    <option value="Non-Poneperishable" class="h5 bg-warning bg-opacity-50">&nbsp;Non-Poneperishable</option>
+                    <option value="Pasta" class="bg-warning bg-opacity-25">&nbsp;Pasta</option>
+                    <option value="Wheat" class="bg-warning bg-opacity-25">&nbsp;Wheat</option>
+                    <option value="Rice" class="bg-warning bg-opacity-25">&nbsp;Rice</option>
+                    <option value="Oils" class="bg-warning bg-opacity-25">&nbsp;Oils</option>
+
+                    <option value="Cans" class="fw-bold bg-warning bg-opacity-25">&nbsp;Cans</option>
+                    <option value="Canned Vegetables" class="small small bg-warning bg-opacity-10">&nbsp;&nbsp;Canned Vegetables</option>
+                    <option value="Canned Meat" class="small small bg-warning bg-opacity-10">&nbsp;&nbsp;Canned Meat</option>
+                    <option value="Canned Fruit" class="small small bg-warning bg-opacity-10">&nbsp;&nbsp;Canned Fruit</option>
+                    <option value="Canned Fish" class="small small bg-warning bg-opacity-10">&nbsp;&nbsp;Canned Fish</option>
+
+                    <option value="Work" class="h4 bg-primary bg-opacity-75">Work</option>
+
+                    <option value="Agile" class="h5 bg-primary bg-opacity-50">&nbsp;Agile</option>
+                    <option value="User-story" class="bg-primary bg-opacity-25">&nbsp;&nbsp;&nbsp;User-story</option>
+                    <option value="Issues" class="bg-primary bg-opacity-25">&nbsp;&nbsp;&nbsp;Issues</option>
+                    <option value="Task" class="bg-primary bg-opacity-25">&nbsp;&nbsp;&nbsp;Task</option>
+                    <option value="Epic" class="bg-primary bg-opacity-25">&nbsp;&nbsp;&nbsp;Epic</option>
+
+                    <option value="Meating" class="h5 bg-primary bg-opacity-50">&nbsp;Meating</option>
+                    <option value="External Meeting" class="bg-primary bg-opacity-25">&nbsp;&nbsp;&nbsp;External Meeting</option>
+                    <option value="Internal Meeting" class="bg-primary bg-opacity-25">&nbsp;&nbsp;&nbsp;Internal Meeting</option>
+
+                </select>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Search" class=" fw-bolder btn btn-outline-secondary border-2 mt-4" />
             </div>
@@ -33,5 +93,5 @@
 
 <div>
     <br /><br />
-    <a asp-action="Index">Back To All Tasks</a>
+    <a asp-controller="Home" asp-action="Index">Back To All Tasks</a>
 </div>

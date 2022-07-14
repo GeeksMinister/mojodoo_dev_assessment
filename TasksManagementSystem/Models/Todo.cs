@@ -17,6 +17,7 @@ public class Todo
     [DisplayName("Set Priority")]
     public int? Priority { get; set; } = null;
     public string Status { get; set; } = "Not Started";
+    public string? Tag { get; set; }
 
     public Todo()
     {
