@@ -15,6 +15,13 @@ public class TodoData : ITodoData
         return await _dbContext.LoadData<Todo, object>("SELECT * FROM Todo", new { });
     }
 
+    public async Task<IEnumerable<Todo>> SearchTodo(string status, string searchTerm)
+    {
+        string query = "SELECT * FROM Todo WHERE Status = @status AND " +
+            "(TaskName LIKE '%' || @searchTerm || '%' OR Description LIKE '%' || @searchTerm || '%')";
+        return await _dbContext.LoadData<Todo, object>(query, new { searchTerm, status });
+    }
+
     public async Task<Todo> GetById(int? id)
     {
         string query = "SELECT * FROM Todo WHERE Id = @Id";
@@ -24,20 +31,21 @@ public class TodoData : ITodoData
 
     public async Task InsertTodo(Todo todo)
     {
-        string query = "INSERT INTO Todo (TaskName, Description, Priority) " +
-                       "VALUES(@TaskName, @Description, @Priority)";
+        string query = "INSERT INTO Todo (TaskName, Description, Priority, Status) " +
+                       "VALUES(@TaskName, @Description, @Priority, @Status)";
         await _dbContext.SaveData(query, new
         {
             todo.TaskName,
             todo.Description,
-            todo.Priority
+            todo.Priority,
+            todo.Status
         });
     }
 
     public async Task UpdateTodo(Todo todo)
     {
         string query = "UPDATE Todo Set TaskName = @TaskName, Description = @Description, " +
-            "Priority = @Priority WHERE Id = @Id";
+                       "Priority = @Priority, Status = @Status WHERE Id = @Id";
         await _dbContext.SaveData(query, todo);
     }
 
@@ -46,8 +54,6 @@ public class TodoData : ITodoData
         string query = "DELETE FROM Todo WHERE Id = @Id";
         await _dbContext.SaveData(query, new { Id = id });
     }
-
-
 
 
 

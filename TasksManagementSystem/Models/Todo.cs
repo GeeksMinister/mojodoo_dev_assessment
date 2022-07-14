@@ -16,21 +16,12 @@ public class Todo
     [Range(1, 5)]
     [DisplayName("Set Priority")]
     public int? Priority { get; set; } = null;
-    [Range(0, 3)]
-    public int Status { get; set; } = 0;
+    public string Status { get; set; } = "Not Started";
 
-    public string ReturnStatus()
+    public Todo()
     {
-        switch (Status)
-        {
-            case 0: return "";
-            case 1: return "In Progress";
-            case 2: return "On Hold";
-            case 3: return "Complete";
 
-            default:
-                throw new ArgumentOutOfRangeException("Invalid status value was passed in!");
-        }
     }
+
 }
 

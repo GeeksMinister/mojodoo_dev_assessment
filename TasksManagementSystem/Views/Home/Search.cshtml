@@ -1,0 +1,37 @@
+﻿@model Todo
+
+@{
+    ViewData["Title"] = "Search";
+}
+
+<h2 class="text-primary">Search</h2>
+<br />
+<br />
+<div class="row">
+    <div class="col-9">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <form asp-action="ShowSearchResults" >
+            <div class="form-group">
+                <label for="searchPhrase" class="control-label">Search</label>
+                <input id="search" name="searchTerm" class="form-control mb-2" />
+            </div>
+            <div class="col-1">
+                <label asp-for="Status"></label>
+                <select asp-for="Status" name="status" class="list-group-item-secondary fw-bold">
+                    <option>Not Started</option>
+                    <option>Started</option>
+                    <option>On Hold</option>
+                    <option>Complete</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Search" class=" fw-bolder btn btn-outline-secondary border-2 mt-4" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <br /><br />
+    <a asp-action="Index">Back To All Tasks</a>
+</div>

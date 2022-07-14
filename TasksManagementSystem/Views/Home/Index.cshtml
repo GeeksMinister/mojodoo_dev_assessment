@@ -1,17 +1,31 @@
 ﻿@model IEnumerable<Todo>
 
 @{
-    ViewData["Title"] = "Tasks Management";
+    ViewData["Title"] = "Tasks";
 }
 
 <div class="container p-3">
     <div class="row pt-4">
-        <div class="col-6">
-            <h2 class="text-primary">To-Do List</h2>
+        <div class="col">
+            <script>
+                function sortOut(value) {
+                    var sortOption = value.value;
+                    window.location.href = "@Url.RouteUrl("/")" + sortOption;
+                }
+            </script>
+            <select name="order" onchange="sortOut(this)"
+                    class="list-group-item-secondary fw-bold border-2 rounded-2 dropdown-item-text ">
+                <option class="fw-bolder ">Order By</option>
+                <option>Oldest</option>
+                <option>Newest</option>
+                <option>Name</option>
+                <option>Priority</option>
+                <option>Status</option>
+            </select>
         </div>
         <div class="col-6 text-end">
-            <a asp-action="Create"
-               class="btn btn-primary">Add Task</a>
+            <a asp-action="Search" class="btn btn-secondary mx-3">Search</a>
+            <a asp-action="Create" class="btn btn-primary">Create Task</a>
         </div>
     </div>
     <br />
@@ -47,11 +61,11 @@
                     <td class="col-3 align-middle text-lg-center fw-bold">@todo.TaskName</td>
                     <td class="col-9 text-sm-center">@todo.Description</td>
                     <td class="col-1 text-sm-center align-middle">@todo.Priority</td>
-                    <td class="col-1 text-sm-center align-middle">@todo.ReturnStatus()</td>
+                    <td class="col-1 text-sm-center align-middle">@todo.Status</td>
                     <td>
                         <div class="text-center">
-                            <a asp-action="Update" asp-route-Id="@todo.Id" class="btn btn-primary  ">Update</a>
-                            <a asp-action="Delete" asp-route-Id="@todo.Id" class="btn btn-danger mt-2">Delete</a>
+                            <a asp-action="Update" asp-route-Id="@todo.Id" class="btn btn-primary p-1 ">Update</a>
+                            <a asp-action="Delete" asp-route-Id="@todo.Id" class="btn btn-danger p-1 mt-2">Delete</a>
                         </div>
                     </td>
                 </tr>

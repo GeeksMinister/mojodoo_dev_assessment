@@ -1,19 +1,22 @@
 ﻿@model Todo
 
-<form method="post" asp-action="UpdatePost" class="table">
+@{
+    ViewData["Title"] = "Update";
+}
+
+<form method="post" asp-action="Update_Post" class="table">
     <div class="border p-3">
         <div class="form-group row">
-            <h2 class="text-black-50 pl-3">Update Task</h2>
+            <h2 class="text-primary pl-3">Update Task</h2>
         </div>
         <div class="row">
             <div class="w-100">
                 <div class="col-3">
-                    <input asp-for="Id" hidden/>
+                    <input asp-for="Id" hidden />
                 </div>
                 <div class="col-3">
                     <label asp-for="TaskName"></label>
-                    <input asp-for="TaskName" class="form-control" />
-                    <span asp-validation-for="TaskName" class="text-danger"></span>
+                    <input asp-for="TaskName" class="form-control" required />
                 </div>
                 <div class="col-3 w-auto m-3">
                     <label asp-for="Description"></label>
@@ -25,14 +28,23 @@
                     <input asp-for="Priority" class="form-control" min="0" max="5" />
                     <span asp-validation-for="Priority" class="text-danger"></span>
                 </div>
+                <div class="col-1">
+                    <label asp-for="Status"></label>
+                    <select asp-for="Status" class="list-group-item-secondary fw-bold">
+                        <option>Not Started</option>
+                        <option>Started</option>
+                        <option>On Hold</option>
+                        <option>Complete</option>
+                    </select>
+                </div>
                 <br />
                 <div class="form-group w-100">
                     <div class="col-8 row m-auto ">
                         <div class="col">
-                            <input type="submit" class="text-capitalize btn btn-info w-75" value="Update" />
+                            <input type="submit" class="btn-warning text-capitalize btn btn-info w-75" value="Update" />
                         </div>
                         <div class="col">
-                            <a asp-action="Index" class="btn btn-danger w-75">Cancel</a>
+                            <a asp-action="Index" class="btn btn-info w-75">Cancel</a>
                         </div>
                     </div>
                 </div>

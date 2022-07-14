@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Todo>
+@{
+    ViewData["Title"] = "Search Results";
+}
+
+<h2 class="text-primary">Search Results</h2>
+<br />
+<br />
+<div>
+    <a asp-action="Index" class="btn btn-outline-secondary mx-3">Back To All Tasks</a>
+    <a asp-action="Search" class="btn btn-secondary">Another Search</a>
+    <br />
+    <br />
+</div>
+<table class="table table-bordered">
+    @if (!Model.Any())
+    {
+        <tr>No project was found</tr>
+        return;
+    }
+    <thead>
+        <tr class="border-5">
+            <th class="text-center">
+                Task
+            </th>
+            <th class="text-center">
+                Description
+            </th>
+            <th class="text-center">
+                Priority
+            </th>
+            <th class="text-center">
+                Status
+            </th>
+            <th class="text-center">
+                Changes
+            </th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.TaskName</td>
+                <td>@item.Description</td>
+                <td>@item.Priority</td>
+                <td>@item.Status</td>
+                <td class="text-center justify-content-lg-between">
+                    <a asp-action="Update" asp-route-Id="@item.Id" class="btn btn-primary p-2 mt-2 ">Update</a>
+                    <a asp-action="Delete" asp-route-Id="@item.Id" class="btn btn-danger p-2 mt-2">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

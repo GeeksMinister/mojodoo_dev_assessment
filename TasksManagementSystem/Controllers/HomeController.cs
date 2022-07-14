@@ -16,9 +16,36 @@ namespace TasksManagementSystem.Controllers
             _todoData = todoData;
         }
 
+        [Route("/")]
+        [Route("Oldest")]
+        [Route("Newest")]
+        [Route("Name")]
+        [Route("Priority")]
+        [Route("Status")]
         public async Task<IActionResult> Index()
         {
-            return View(await _todoData.GetAll());
+            string route = Request?.Path.Value!;
+            var result = await SortOutTasks(route);
+            return View(result);
+        }
+
+        public async Task<IEnumerable<Todo>> SortOutTasks(string? route)
+        {
+            var result = await _todoData.GetAll();
+            
+            switch (route)
+            {
+                case "/Newest":
+                    return result.ToList().OrderByDescending(todo => todo.Id);
+                case "/Name":
+                    return result.ToList().OrderBy(todo => todo.TaskName);
+                case "/Priority":
+                    return result.ToList().OrderBy(todo => todo.Priority);
+                case "/Status":
+                    return result.ToList().OrderBy(todo => todo.Status);
+                default:
+                    return result;
+            }
         }
 
         public IActionResult Create()
@@ -27,7 +54,7 @@ namespace TasksManagementSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Todo todo)
+        public IActionResult Create_Post(Todo todo)
         {
             if (ModelState.IsValid)
             {
@@ -46,7 +73,7 @@ namespace TasksManagementSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdatePost(Todo todo)
+        public async Task<IActionResult> Update_Post(Todo todo)
         {
             if (ModelState.IsValid)
             {
@@ -56,22 +83,30 @@ namespace TasksManagementSystem.Controllers
             return View(todo);
         }
 
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || id <= 0) return NotFound();
-            var todo = _todoData.GetById(id);
+            var todo = await _todoData.GetById(id);
             if (todo == null) return NotFound();
             return View(todo);
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeletePost(int? id)
+        public async Task<IActionResult> Delete_Post(int? id)
         {
             await _todoData.DeleteTodo(id);
             return RedirectToAction(nameof(Index));
         }
 
+        public IActionResult Search()
+        {
+            return View();
+        }
 
+        public async Task<IActionResult> ShowSearchResults(string status, string searchTerm)
+        {
+            return View(await _todoData.SearchTodo(status, searchTerm));
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

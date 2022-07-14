@@ -1,44 +1,45 @@
 ﻿@model Todo
 
 @{ 
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Delete";
 }
 
-<form method="post" asp-action="Create_Post" class="table">
+<form method="post" asp-action="Delete_Post" class="table">
     <div class="border p-3">
         <div class="form-group row">
-            <h2 class="text-primary pl-3">Add Task</h2>
+            <h2 class="text-primary pl-3">Delete Task</h2>
         </div>
         <div class="row">
             <div class="w-100">
                 <div class="col-3">
+                    <input asp-for="Id" hidden/>
+                </div>
+                <div class="col-3">
                     <label asp-for="TaskName"></label>
-                    <input asp-for="TaskName" class="form-control" required/>
+                    <input asp-for="TaskName" class="form-control" disabled/>
+                    <span asp-validation-for="TaskName" class="text-danger"></span>
                 </div>
                 <div class="col-3 w-auto m-3">
                     <label asp-for="Description"></label>
-                    <textarea asp-for="Description" class="form-control " rows="6"></textarea>
+                    <textarea asp-for="Description" class="form-control " rows="6" disabled></textarea>
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
                 <div class="col-1">
                     <label asp-for="Priority"></label>
-                    <input asp-for="Priority" class="form-control" min="0" max="5" />
+                    <input asp-for="Priority" class="form-control" min="0" max="5" disabled/>
                     <span asp-validation-for="Priority" class="text-danger"></span>
                 </div>
                 <div class="col-1">
                     <label asp-for="Status"></label>
-                    <select asp-for="Status" class="list-group-item-secondary fw-bold">
-                        <option>Not Started</option>
-                        <option>Started</option>
-                        <option>On Hold</option>
-                        <option>Complete</option>
+                    <select asp-for="Status" disabled class="fw-bold">
+                        <option>@Model.Status</option>
                     </select>
                 </div>
                 <br />
                 <div class="form-group w-100">
                     <div class="col-8 row m-auto ">
                         <div class="col">
-                            <input type="submit" class="btn btn-success w-75" value="Create" />
+                            <input type="submit" class="btn btn-danger w-75" value="Delete" />
                         </div>
                         <div class="col">
                             <a asp-action="Index" class="btn btn-info w-75">Cancel</a>
