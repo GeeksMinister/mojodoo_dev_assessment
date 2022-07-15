@@ -43,13 +43,13 @@ namespace TasksManagementSystem.Controllers
             switch (route)
             {
                 case "/byNewest":
-                    return result.ToList().OrderByDescending(todo => todo.Id);
+                    return result.OrderByDescending(todo => todo.Id);
                 case "/byName":
-                    return result.ToList().OrderBy(todo => todo.TaskName);
+                    return result.OrderBy(todo => todo.TaskName);
                 case "/byPriority":
-                    return result.ToList().OrderBy(todo => todo.Priority);
+                    return result.OrderBy(todo => todo.Priority);
                 case "/byStatus":
-                    return result.ToList().OrderBy(todo => todo.Status);
+                    return result.OrderBy(todo => todo.Status);
                 default:
                     return result;
             }
